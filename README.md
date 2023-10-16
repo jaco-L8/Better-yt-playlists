@@ -1,2 +1,2 @@
 # Better-yt-playlists
-a better way of making, using and desplaying playlists on youtube!
+a better way of making, using and displaying playlists on youtube!
