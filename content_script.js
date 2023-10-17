@@ -5,11 +5,23 @@ console.log('Better Playlists Content Script Loaded');
 let created_input = false;
 
 let add_to_playlist = (url) => {
+  let pd = document.getElementById('playlist_input');
   console.log(`adding ${url} to playlist`);
+  let vid = url.split('=')[1];
+
+  let contents = document.createElement('img');
+  contents.setAttribute(
+    'class',
+    'yt-simple-endpoint inline-block style-scope ytd-thumbnail'
+  );
+  contents.src = `https://img.youtube.com/vi/${vid}/0.jpg`;
+  contents.setAttribute('style', 'width: 300px; height: auto;');
+
+  pd.appendChild(contents);
 };
 
 let main = () => {
-  let our_input = document.getElementById('search_input');
+  let our_input = document.getElementById('playlist_input');
 
   our_input.addEventListener('input', (e) => {
     add_to_playlist(our_input.value);
@@ -18,16 +30,14 @@ let main = () => {
 };
 
 let create_input = () => {
-  let target = document.querySelector('#end');
-  let input = document.createElement('input');
-  input.setAttribute('type', 'text');
-  input.setAttribute('id', 'search_input');
-  input.setAttribute(
-    'style',
-    'width: 40px; height: 30px; margin-bottom: 10px;'
+  let target = document.querySelector(
+    'ytd-rich-grid-renderer.style-scope > div:nth-child(1)'
   );
-
-  target.appendChild(input);
+  let playlist_div = document.createElement('div');
+  playlist_div.setAttribute('id', 'playlist_input');
+  playlist_div.setAttribute('class', 'style-scope ytd-rich-grid-renderer');
+  playlist_div.setAttribute('style', 'overflow: scroll;');
+  target.before(playlist_div);
   created_input = true;
 };
 
@@ -37,4 +47,12 @@ document.addEventListener('yt-navigate-finish', (e) => {
     create_input();
   }
   main();
+});
+
+document.addEventListener('dragstart', (e) => {
+  if (e.dataTransfer) {
+    let url = e.dataTransfer.getData('URL');
+    add_to_playlist(url);
+  }
+  //console.log(e);
 });
