@@ -22,7 +22,7 @@ let create_input = () => {
   input.setAttribute('id', 'search_input');
   input.setAttribute(
     'style',
-    'width: 10px; height: 30px; margin-bottom: 10px;'
+    'width: 40px; height: 30px; margin-bottom: 10px;'
   );
 
   target.appendChild(input);
