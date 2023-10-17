@@ -2,6 +2,8 @@
 
 console.log('Better Playlists Content Script Loaded');
 
+let created_input = false;
+
 let add_to_playlist = (url) => {
   console.log(`adding ${url} to playlist`);
 };
@@ -26,10 +28,13 @@ let create_input = () => {
   );
 
   target.appendChild(input);
+  created_input = true;
 };
 
 document.addEventListener('yt-navigate-finish', (e) => {
   console.log('youtube finished loading');
-  create_input();
+  if (!created_input) {
+    create_input();
+  }
   main();
 });
